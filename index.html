@@ -1,868 +1,868 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Elixir Development Tools Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        elixir: {
-                            light: '#4A2E7A',
-                            DEFAULT: '#6B3FA0',
-                            dark: '#8A4FD0'
-                        }
-                    }
-                }
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              elixir: {
+                light: '#4A2E7A',
+                DEFAULT: '#6B3FA0',
+                dark: '#8A4FD0'
+              }
             }
+          }
         }
+      }
 
-        // Simple dark mode toggle
-        function toggleDarkMode() {
-            document.documentElement.classList.toggle('dark');
-            const isDark = document.documentElement.classList.contains('dark');
-            localStorage.setItem('darkMode', isDark ? 'dark' : 'light');
+      // Simple dark mode toggle
+      function toggleDarkMode() {
+        document.documentElement.classList.toggle('dark');
+        const isDark = document.documentElement.classList.contains('dark');
+        localStorage.setItem('darkMode', isDark ? 'dark' : 'light');
+      }
+
+      // Toggle sidebar on mobile
+      function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('-translate-x-full');
+      }
+
+      // Check for saved dark mode preference
+      document.addEventListener('DOMContentLoaded', () => {
+        const savedMode = localStorage.getItem('darkMode');
+        if (savedMode === 'dark' || (!savedMode && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
         }
-
-        // Toggle sidebar on mobile
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('-translate-x-full');
-        }
-
-        // Check for saved dark mode preference
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedMode = localStorage.getItem('darkMode');
-            if (savedMode === 'dark' || (!savedMode && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                document.documentElement.classList.add('dark');
-            }
-        });
+      });
     </script>
-</head>
-<body class="bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-200">
+  </head>
+  <body class="bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-200">
     <!-- Header -->
     <header class="bg-elixir-light dark:bg-elixir-dark text-white shadow-md sticky top-0 z-30">
-        <div class="container mx-auto px-4 py-6 flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-                <!-- Mobile sidebar toggle -->
-                <button 
-                    onclick="toggleSidebar()" 
-                    class="p-2 rounded-full bg-white/20 hover:bg-white/30 transition-colors md:hidden"
-                    aria-label="Toggle sidebar"
-                >
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
-                
-                <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M19.9 12.66C19.67 12.38 19.67 11.95 19.9 11.66L21.18 10.23C21.53 9.83 21.38 9.22 20.9 9L19.18 8.05C18.87 7.87 18.72 7.5 18.77 7.13L19.06 5.16C19.15 4.62 18.72 4.14 18.18 4.14H16.26C15.88 4.14 15.55 3.89 15.44 3.53L14.82 1.78C14.63 1.28 14.06 1.03 13.57 1.22L11.88 1.95C11.52 2.09 11.11 1.96 10.89 1.65L9.67 0.38C9.29 -0.01 8.67 -0.01 8.29 0.38L7.08 1.65C6.85 1.96 6.45 2.09 6.09 1.95L4.4 1.22C3.91 1.03 3.34 1.28 3.15 1.78L2.53 3.53C2.42 3.89 2.08 4.14 1.71 4.14H-0.21C-0.75 4.14 -1.18 4.62 -1.09 5.16L-0.8 7.13C-0.75 7.5 -0.9 7.87 -1.21 8.05L-2.93 9C-3.41 9.22 -3.56 9.83 -3.21 10.23L-1.93 11.66C-1.7 11.95 -1.7 12.38 -1.93 12.66L-3.21 14.09C-3.56 14.49 -3.41 15.1 -2.93 15.32L-1.21 16.27C-0.9 16.45 -0.75 16.82 -0.8 17.19L-1.09 19.16C-1.18 19.7 -0.75 20.18 -0.21 20.18H1.71C2.08 20.18 2.42 20.43 2.53 20.79L3.15 22.54C3.34 23.04 3.91 23.29 4.4 23.1L6.09 22.37C6.45 22.23 6.85 22.36 7.08 22.67L8.29 23.94C8.67 24.33 9.29 24.33 9.67 23.94L10.89 22.67C11.11 22.36 11.52 22.23 11.88 22.37L13.57 23.1C14.06 23.29 14.63 23.04 14.82 22.54L15.44 20.79C15.55 20.43 15.88 20.18 16.26 20.18H18.18C18.72 20.18 19.15 19.7 19.06 19.16L18.77 17.19C18.72 16.82 18.87 16.45 19.18 16.27L20.9 15.32C21.38 15.1 21.53 14.49 21.18 14.09L19.9 12.66Z" fill="#6B3FA0"/>
-                    <circle cx="9" cy="12" r="4" fill="white"/>
-                </svg>
-                <h1 class="text-2xl font-bold">Elixir Tools Hub</h1>
-            </div>
-            <button 
-                onclick="toggleDarkMode()" 
-                class="p-2 rounded-full bg-white/20 hover:bg-white/30 transition-colors"
-                aria-label="Toggle dark mode"
-            >
-                <svg class="w-6 h-6 hidden dark:block" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
-                </svg>
-                <svg class="w-6 h-6 block dark:hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-                </svg>
-            </button>
+      <div class="container mx-auto px-4 py-6 flex justify-between items-center">
+        <div class="flex items-center space-x-2">
+          <!-- Mobile sidebar toggle -->
+          <button
+            onclick="toggleSidebar()"
+            class="p-2 rounded-full bg-white/20 hover:bg-white/30 transition-colors md:hidden"
+            aria-label="Toggle sidebar"
+          >
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+
+          <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19.9 12.66C19.67 12.38 19.67 11.95 19.9 11.66L21.18 10.23C21.53 9.83 21.38 9.22 20.9 9L19.18 8.05C18.87 7.87 18.72 7.5 18.77 7.13L19.06 5.16C19.15 4.62 18.72 4.14 18.18 4.14H16.26C15.88 4.14 15.55 3.89 15.44 3.53L14.82 1.78C14.63 1.28 14.06 1.03 13.57 1.22L11.88 1.95C11.52 2.09 11.11 1.96 10.89 1.65L9.67 0.38C9.29 -0.01 8.67 -0.01 8.29 0.38L7.08 1.65C6.85 1.96 6.45 2.09 6.09 1.95L4.4 1.22C3.91 1.03 3.34 1.28 3.15 1.78L2.53 3.53C2.42 3.89 2.08 4.14 1.71 4.14H-0.21C-0.75 4.14 -1.18 4.62 -1.09 5.16L-0.8 7.13C-0.75 7.5 -0.9 7.87 -1.21 8.05L-2.93 9C-3.41 9.22 -3.56 9.83 -3.21 10.23L-1.93 11.66C-1.7 11.95 -1.7 12.38 -1.93 12.66L-3.21 14.09C-3.56 14.49 -3.41 15.1 -2.93 15.32L-1.21 16.27C-0.9 16.45 -0.75 16.82 -0.8 17.19L-1.09 19.16C-1.18 19.7 -0.75 20.18 -0.21 20.18H1.71C2.08 20.18 2.42 20.43 2.53 20.79L3.15 22.54C3.34 23.04 3.91 23.29 4.4 23.1L6.09 22.37C6.45 22.23 6.85 22.36 7.08 22.67L8.29 23.94C8.67 24.33 9.29 24.33 9.67 23.94L10.89 22.67C11.11 22.36 11.52 22.23 11.88 22.37L13.57 23.1C14.06 23.29 14.63 23.04 14.82 22.54L15.44 20.79C15.55 20.43 15.88 20.18 16.26 20.18H18.18C18.72 20.18 19.15 19.7 19.06 19.16L18.77 17.19C18.72 16.82 18.87 16.45 19.18 16.27L20.9 15.32C21.38 15.1 21.53 14.49 21.18 14.09L19.9 12.66Z" fill="#6B3FA0"/>
+            <circle cx="9" cy="12" r="4" fill="white"/>
+          </svg>
+          <h1 class="text-2xl font-bold">Elixir Tools Hub</h1>
         </div>
+        <button
+          onclick="toggleDarkMode()"
+          class="p-2 rounded-full bg-white/20 hover:bg-white/30 transition-colors"
+          aria-label="Toggle dark mode"
+        >
+          <svg class="w-6 h-6 hidden dark:block" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+          </svg>
+          <svg class="w-6 h-6 block dark:hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+          </svg>
+        </button>
+      </div>
     </header>
 
     <!-- Hero Section -->
     <section class="bg-gradient-to-r from-elixir-light to-elixir dark:from-elixir-dark dark:to-elixir text-white py-16">
-        <div class="container mx-auto px-4 text-center">
-            <h2 class="text-4xl font-bold mb-4">Discover the Best Tools for Elixir Development</h2>
-            <p class="text-xl max-w-3xl mx-auto">A comprehensive collection of frameworks, libraries, and tools to enhance your Elixir development experience.</p>
-        </div>
+      <div class="container mx-auto px-4 text-center">
+        <h2 class="text-4xl font-bold mb-4">Discover the Best Tools for Elixir Development</h2>
+        <p class="text-xl max-w-3xl mx-auto">A comprehensive collection of frameworks, libraries, and tools to enhance your Elixir development experience.</p>
+      </div>
     </section>
 
     <div class="flex flex-col md:flex-row">
-        <!-- Sidebar -->
-        <aside id="sidebar" class="bg-white dark:bg-gray-800 w-64 shadow-md md:sticky top-[88px] h-[calc(100vh-88px)] z-20 transition-transform duration-300 ease-in-out -translate-x-full md:translate-x-0 overflow-y-auto">
-            <div class="p-4 border-b border-gray-200 dark:border-gray-700">
-                <h2 class="text-xl font-bold text-elixir dark:text-elixir-dark">Categories</h2>
+      <!-- Sidebar -->
+      <aside id="sidebar" class="bg-white dark:bg-gray-800 w-64 shadow-md md:sticky top-[88px] h-[calc(100vh-88px)] z-20 transition-transform duration-300 ease-in-out -translate-x-full md:translate-x-0 overflow-y-auto">
+        <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+          <h2 class="text-xl font-bold text-elixir dark:text-elixir-dark">Categories</h2>
+        </div>
+
+        <!-- Search Box -->
+        <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+          <div class="relative">
+            <input
+              type="text"
+              id="search-input"
+              placeholder="Search tools..."
+              class="w-full px-4 py-2 pl-10 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-elixir dark:focus:ring-elixir-dark"
+            >
+            <div class="absolute left-3 top-2.5 text-gray-400 dark:text-gray-500">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+              </svg>
             </div>
-            
-            <!-- Search Box -->
-            <div class="p-4 border-b border-gray-200 dark:border-gray-700">
-                <div class="relative">
-                    <input 
-                        type="text" 
-                        id="search-input" 
-                        placeholder="Search tools..." 
-                        class="w-full px-4 py-2 pl-10 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-elixir dark:focus:ring-elixir-dark"
-                    >
-                    <div class="absolute left-3 top-2.5 text-gray-400 dark:text-gray-500">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                        </svg>
-                    </div>
-                    <button 
-                        id="clear-search" 
-                        class="absolute right-3 top-2.5 text-gray-400 dark:text-gray-500 hidden"
-                        aria-label="Clear search"
-                    >
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </button>
+            <button
+              id="clear-search"
+              class="absolute right-3 top-2.5 text-gray-400 dark:text-gray-500 hidden"
+              aria-label="Clear search"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <nav class="p-4">
+          <ul class="space-y-2">
+            <li>
+              <button class="sidebar-btn w-full active" data-category="all">
+                All Tools
+              </button>
+            </li>
+            <li>
+              <button class="sidebar-btn w-full" data-category="web">
+                Web Frameworks
+              </button>
+            </li>
+            <li>
+              <button class="sidebar-btn w-full" data-category="database">
+                Database
+              </button>
+            </li>
+            <li>
+              <button class="sidebar-btn w-full" data-category="testing">
+                Testing
+              </button>
+            </li>
+            <li>
+              <button class="sidebar-btn w-full" data-category="deployment">
+                Deployment
+              </button>
+            </li>
+            <li>
+              <button class="sidebar-btn w-full" data-category="ide">
+                IDE & Editors
+              </button>
+            </li>
+            <li>
+              <button class="sidebar-btn w-full" data-category="monitoring">
+                Monitoring
+              </button>
+            </li>
+            <li>
+              <button class="sidebar-btn w-full" data-category="package">
+                Package Management
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+
+      <style>
+        .sidebar-btn {
+          @apply px-4 py-2 rounded-lg text-left text-gray-700 hover:bg-elixir hover:text-white transition-colors;
+          @apply dark:text-gray-300 dark:hover:bg-elixir-dark;
+        }
+        .sidebar-btn.active {
+          @apply bg-elixir text-white;
+          @apply dark:bg-elixir-dark;
+        }
+      </style>
+
+      <!-- Main Content -->
+      <main class="flex-1 md:ml-0 p-4">
+        <!-- Web Frameworks Section -->
+        <section id="web" class="mb-12 tool-section">
+          <h2 class="text-2xl font-bold mb-6 text-elixir dark:text-elixir-dark">Web Frameworks</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Phoenix -->
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="Phoenix Framework" data-tool-tags="MVC Real-time LiveView">
+              <div class="h-48 bg-gradient-to-r from-orange-500 to-red-500 flex items-center justify-center">
+                <img src="/placeholder.svg?height=150&width=250" alt="Phoenix Framework" class="max-h-32">
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-2">Phoenix Framework</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">A productive web framework that does not compromise speed or maintainability.</p>
+                <div class="mb-4">
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">MVC</span>
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Real-time</span>
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">LiveView</span>
                 </div>
-            </div>
-            
-            <nav class="p-4">
-                <ul class="space-y-2">
-                    <li>
-                        <button class="sidebar-btn w-full active" data-category="all">
-                            All Tools
-                        </button>
-                    </li>
-                    <li>
-                        <button class="sidebar-btn w-full" data-category="web">
-                            Web Frameworks
-                        </button>
-                    </li>
-                    <li>
-                        <button class="sidebar-btn w-full" data-category="database">
-                            Database
-                        </button>
-                    </li>
-                    <li>
-                        <button class="sidebar-btn w-full" data-category="testing">
-                            Testing
-                        </button>
-                    </li>
-                    <li>
-                        <button class="sidebar-btn w-full" data-category="deployment">
-                            Deployment
-                        </button>
-                    </li>
-                    <li>
-                        <button class="sidebar-btn w-full" data-category="ide">
-                            IDE & Editors
-                        </button>
-                    </li>
-                    <li>
-                        <button class="sidebar-btn w-full" data-category="monitoring">
-                            Monitoring
-                        </button>
-                    </li>
-                    <li>
-                        <button class="sidebar-btn w-full" data-category="package">
-                            Package Management
-                        </button>
-                    </li>
-                </ul>
-            </nav>
-        </aside>
-
-        <style>
-            .sidebar-btn {
-                @apply px-4 py-2 rounded-lg text-left text-gray-700 hover:bg-elixir hover:text-white transition-colors;
-                @apply dark:text-gray-300 dark:hover:bg-elixir-dark;
-            }
-            .sidebar-btn.active {
-                @apply bg-elixir text-white;
-                @apply dark:bg-elixir-dark;
-            }
-        </style>
-
-        <!-- Main Content -->
-        <main class="flex-1 md:ml-0 p-4">
-            <!-- Web Frameworks Section -->
-            <section id="web" class="mb-12 tool-section">
-                <h2 class="text-2xl font-bold mb-6 text-elixir dark:text-elixir-dark">Web Frameworks</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Phoenix -->
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="Phoenix Framework" data-tool-tags="MVC Real-time LiveView">
-                        <div class="h-48 bg-gradient-to-r from-orange-500 to-red-500 flex items-center justify-center">
-                            <img src="/placeholder.svg?height=150&width=250" alt="Phoenix Framework" class="max-h-32">
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2">Phoenix Framework</h3>
-                            <p class="text-gray-600 dark:text-gray-300 mb-4">A productive web framework that does not compromise speed or maintainability.</p>
-                            <div class="mb-4">
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">MVC</span>
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Real-time</span>
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">LiveView</span>
-                            </div>
-                            <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
-                                <code class="text-sm text-elixir dark:text-elixir-dark">
+                <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
+                  <code class="text-sm text-elixir dark:text-elixir-dark">
                                     mix phx.new my_app
-                                </code>
-                            </div>
-                            <a href="https://www.phoenixframework.org/" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
-                                Visit Website
-                            </a>
-                        </div>
-                    </div>
+                  </code>
+                </div>
+                <a href="https://www.phoenixframework.org/" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
+                  Visit Website
+                </a>
+              </div>
+            </div>
 
-                    <!-- Plug -->
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="Plug" data-tool-tags="Middleware HTTP">
-                        <div class="h-48 bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center">
-                            <img src="/placeholder.svg?height=150&width=250" alt="Plug" class="max-h-32">
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2">Plug</h3>
-                            <p class="text-gray-600 dark:text-gray-300 mb-4">A specification for composable modules in web applications.</p>
-                            <div class="mb-4">
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Middleware</span>
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">HTTP</span>
-                            </div>
-                            <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
-                                <code class="text-sm text-elixir dark:text-elixir-dark">
+            <!-- Plug -->
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="Plug" data-tool-tags="Middleware HTTP">
+              <div class="h-48 bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center">
+                <img src="/placeholder.svg?height=150&width=250" alt="Plug" class="max-h-32">
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-2">Plug</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">A specification for composable modules in web applications.</p>
+                <div class="mb-4">
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Middleware</span>
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">HTTP</span>
+                </div>
+                <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
+                  <code class="text-sm text-elixir dark:text-elixir-dark">
                                     defmodule MyPlug do<br>
                                     &nbsp;&nbsp;use Plug.Builder<br>
                                     &nbsp;&nbsp;plug :set_header<br>
                                     &nbsp;&nbsp;def set_header(conn, _), do: put_resp_header(conn, "x-hello", "world")<br>
                                     end
-                                </code>
-                            </div>
-                            <a href="https://hexdocs.pm/plug/readme.html" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
-                                Visit Website
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Bandit -->
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="Bandit" data-tool-tags="HTTP/2 Server">
-                        <div class="h-48 bg-gradient-to-r from-green-500 to-teal-500 flex items-center justify-center">
-                            <img src="/placeholder.svg?height=150&width=250" alt="Bandit" class="max-h-32">
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2">Bandit</h3>
-                            <p class="text-gray-600 dark:text-gray-300 mb-4">A HTTP server for Plug apps with HTTP/2 support.</p>
-                            <div class="mb-4">
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">HTTP/2</span>
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Server</span>
-                            </div>
-                            <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
-                                <code class="text-sm text-elixir dark:text-elixir-dark">
-                                    {:bandit, "~> 0.7.7"}
-                                </code>
-                            </div>
-                            <a href="https://github.com/mtrudel/bandit" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
-                                Visit Website
-                            </a>
-                        </div>
-                    </div>
+                  </code>
                 </div>
-            </section>
+                <a href="https://hexdocs.pm/plug/readme.html" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
+                  Visit Website
+                </a>
+              </div>
+            </div>
 
-            <!-- Database Section -->
-            <section id="database" class="mb-12 tool-section">
-                <h2 class="text-2xl font-bold mb-6 text-elixir dark:text-elixir-dark">Database Tools</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Ecto -->
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="Ecto" data-tool-tags="ORM Query Builder">
-                        <div class="h-48 bg-gradient-to-r from-green-500 to-blue-500 flex items-center justify-center">
-                            <img src="/placeholder.svg?height=150&width=250" alt="Ecto" class="max-h-32">
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2">Ecto</h3>
-                            <p class="text-gray-600 dark:text-gray-300 mb-4">A database wrapper and language integrated query for Elixir.</p>
-                            <div class="mb-4">
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">ORM</span>
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Query Builder</span>
-                            </div>
-                            <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
-                                <code class="text-sm text-elixir dark:text-elixir-dark">
+            <!-- Bandit -->
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="Bandit" data-tool-tags="HTTP/2 Server">
+              <div class="h-48 bg-gradient-to-r from-green-500 to-teal-500 flex items-center justify-center">
+                <img src="/placeholder.svg?height=150&width=250" alt="Bandit" class="max-h-32">
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-2">Bandit</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">A HTTP server for Plug apps with HTTP/2 support.</p>
+                <div class="mb-4">
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">HTTP/2</span>
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Server</span>
+                </div>
+                <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
+                  <code class="text-sm text-elixir dark:text-elixir-dark">
+                                    {:bandit, "~> 0.7.7"}
+                  </code>
+                </div>
+                <a href="https://github.com/mtrudel/bandit" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
+                  Visit Website
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Database Section -->
+        <section id="database" class="mb-12 tool-section">
+          <h2 class="text-2xl font-bold mb-6 text-elixir dark:text-elixir-dark">Database Tools</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Ecto -->
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="Ecto" data-tool-tags="ORM Query Builder">
+              <div class="h-48 bg-gradient-to-r from-green-500 to-blue-500 flex items-center justify-center">
+                <img src="/placeholder.svg?height=150&width=250" alt="Ecto" class="max-h-32">
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-2">Ecto</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">A database wrapper and language integrated query for Elixir.</p>
+                <div class="mb-4">
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">ORM</span>
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Query Builder</span>
+                </div>
+                <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
+                  <code class="text-sm text-elixir dark:text-elixir-dark">
                                     from u in User,<br>
                                     &nbsp;&nbsp;where: u.age > 18,<br>
                                     &nbsp;&nbsp;select: u.name
-                                </code>
-                            </div>
-                            <a href="https://hexdocs.pm/ecto/Ecto.html" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
-                                Visit Website
-                            </a>
-                        </div>
-                    </div>
+                  </code>
+                </div>
+                <a href="https://hexdocs.pm/ecto/Ecto.html" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
+                  Visit Website
+                </a>
+              </div>
+            </div>
 
-                    <!-- Postgrex -->
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="Postgrex" data-tool-tags="PostgreSQL Driver">
-                        <div class="h-48 bg-gradient-to-r from-blue-500 to-indigo-500 flex items-center justify-center">
-                            <img src="/placeholder.svg?height=150&width=250" alt="Postgrex" class="max-h-32">
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2">Postgrex</h3>
-                            <p class="text-gray-600 dark:text-gray-300 mb-4">PostgreSQL driver for Elixir.</p>
-                            <div class="mb-4">
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">PostgreSQL</span>
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Driver</span>
-                            </div>
-                            <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
-                                <code class="text-sm text-elixir dark:text-elixir-dark">
+            <!-- Postgrex -->
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="Postgrex" data-tool-tags="PostgreSQL Driver">
+              <div class="h-48 bg-gradient-to-r from-blue-500 to-indigo-500 flex items-center justify-center">
+                <img src="/placeholder.svg?height=150&width=250" alt="Postgrex" class="max-h-32">
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-2">Postgrex</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">PostgreSQL driver for Elixir.</p>
+                <div class="mb-4">
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">PostgreSQL</span>
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Driver</span>
+                </div>
+                <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
+                  <code class="text-sm text-elixir dark:text-elixir-dark">
                                     {:postgrex, ">= 0.0.0"}
-                                </code>
-                            </div>
-                            <a href="https://hexdocs.pm/postgrex/readme.html" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
-                                Visit Website
-                            </a>
-                        </div>
-                    </div>
+                  </code>
+                </div>
+                <a href="https://hexdocs.pm/postgrex/readme.html" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
+                  Visit Website
+                </a>
+              </div>
+            </div>
 
-                    <!-- Oban -->
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="Oban" data-tool-tags="Job Queue Background Jobs">
-                        <div class="h-48 bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
-                            <img src="/placeholder.svg?height=150&width=250" alt="Oban" class="max-h-32">
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2">Oban</h3>
-                            <p class="text-gray-600 dark:text-gray-300 mb-4">Robust job processing in Elixir, backed by PostgreSQL.</p>
-                            <div class="mb-4">
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Job Queue</span>
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Background Jobs</span>
-                            </div>
-                            <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
-                                <code class="text-sm text-elixir dark:text-elixir-dark">
+            <!-- Oban -->
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="Oban" data-tool-tags="Job Queue Background Jobs">
+              <div class="h-48 bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
+                <img src="/placeholder.svg?height=150&width=250" alt="Oban" class="max-h-32">
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-2">Oban</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">Robust job processing in Elixir, backed by PostgreSQL.</p>
+                <div class="mb-4">
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Job Queue</span>
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Background Jobs</span>
+                </div>
+                <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
+                  <code class="text-sm text-elixir dark:text-elixir-dark">
                                     %{email: "user@example.com"}<br>
                                     |> MyApp.Workers.SendEmail.new()<br>
                                     |> Oban.insert()
-                                </code>
-                            </div>
-                            <a href="https://hexdocs.pm/oban/Oban.html" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
-                                Visit Website
-                            </a>
-                        </div>
-                    </div>
+                  </code>
                 </div>
-            </section>
+                <a href="https://hexdocs.pm/oban/Oban.html" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
+                  Visit Website
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
 
-            <!-- Testing Section -->
-            <section id="testing" class="mb-12 tool-section">
-                <h2 class="text-2xl font-bold mb-6 text-elixir dark:text-elixir-dark">Testing Tools</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- ExUnit -->
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="ExUnit" data-tool-tags="Unit Testing Built-in">
-                        <div class="h-48 bg-gradient-to-r from-yellow-500 to-orange-500 flex items-center justify-center">
-                            <img src="/placeholder.svg?height=150&width=250" alt="ExUnit" class="max-h-32">
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2">ExUnit</h3>
-                            <p class="text-gray-600 dark:text-gray-300 mb-4">Built-in test framework for Elixir.</p>
-                            <div class="mb-4">
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Unit Testing</span>
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Built-in</span>
-                            </div>
-                            <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
-                                <code class="text-sm text-elixir dark:text-elixir-dark">
+        <!-- Testing Section -->
+        <section id="testing" class="mb-12 tool-section">
+          <h2 class="text-2xl font-bold mb-6 text-elixir dark:text-elixir-dark">Testing Tools</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- ExUnit -->
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="ExUnit" data-tool-tags="Unit Testing Built-in">
+              <div class="h-48 bg-gradient-to-r from-yellow-500 to-orange-500 flex items-center justify-center">
+                <img src="/placeholder.svg?height=150&width=250" alt="ExUnit" class="max-h-32">
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-2">ExUnit</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">Built-in test framework for Elixir.</p>
+                <div class="mb-4">
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Unit Testing</span>
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Built-in</span>
+                </div>
+                <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
+                  <code class="text-sm text-elixir dark:text-elixir-dark">
                                     test "greets the world" do<br>
                                     &nbsp;&nbsp;assert Hello.world() == :world<br>
                                     end
-                                </code>
-                            </div>
-                            <a href="https://hexdocs.pm/ex_unit/ExUnit.html" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
-                                Visit Website
-                            </a>
-                        </div>
-                    </div>
+                  </code>
+                </div>
+                <a href="https://hexdocs.pm/ex_unit/ExUnit.html" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
+                  Visit Website
+                </a>
+              </div>
+            </div>
 
-                    <!-- Mox -->
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="Mox" data-tool-tags="Mocking Behavior Testing">
-                        <div class="h-48 bg-gradient-to-r from-red-500 to-pink-500 flex items-center justify-center">
-                            <img src="/placeholder.svg?height=150&width=250" alt="Mox" class="max-h-32">
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2">Mox</h3>
-                            <p class="text-gray-600 dark:text-gray-300 mb-4">Library for defining concurrent mocks in Elixir.</p>
-                            <div class="mb-4">
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Mocking</span>
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Behavior Testing</span>
-                            </div>
-                            <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
-                                <code class="text-sm text-elixir dark:text-elixir-dark">
+            <!-- Mox -->
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="Mox" data-tool-tags="Mocking Behavior Testing">
+              <div class="h-48 bg-gradient-to-r from-red-500 to-pink-500 flex items-center justify-center">
+                <img src="/placeholder.svg?height=150&width=250" alt="Mox" class="max-h-32">
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-2">Mox</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">Library for defining concurrent mocks in Elixir.</p>
+                <div class="mb-4">
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Mocking</span>
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Behavior Testing</span>
+                </div>
+                <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
+                  <code class="text-sm text-elixir dark:text-elixir-dark">
                                     Mox.expect(PaymentMock, :process, fn amount -> {:ok, amount} end)
-                                </code>
-                            </div>
-                            <a href="https://hexdocs.pm/mox/Mox.html" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
-                                Visit Website
-                            </a>
-                        </div>
-                    </div>
+                  </code>
+                </div>
+                <a href="https://hexdocs.pm/mox/Mox.html" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
+                  Visit Website
+                </a>
+              </div>
+            </div>
 
-                    <!-- Wallaby -->
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="Wallaby" data-tool-tags="Browser Testing Integration Tests">
-                        <div class="h-48 bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center">
-                            <img src="/placeholder.svg?height=150&width=250" alt="Wallaby" class="max-h-32">
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2">Wallaby</h3>
-                            <p class="text-gray-600 dark:text-gray-300 mb-4">Concurrent browser tests for your Elixir web applications.</p>
-                            <div class="mb-4">
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Browser Testing</span>
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Integration Tests</span>
-                            </div>
-                            <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
-                                <code class="text-sm text-elixir dark:text-elixir-dark">
+            <!-- Wallaby -->
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="Wallaby" data-tool-tags="Browser Testing Integration Tests">
+              <div class="h-48 bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center">
+                <img src="/placeholder.svg?height=150&width=250" alt="Wallaby" class="max-h-32">
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-2">Wallaby</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">Concurrent browser tests for your Elixir web applications.</p>
+                <div class="mb-4">
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Browser Testing</span>
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Integration Tests</span>
+                </div>
+                <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
+                  <code class="text-sm text-elixir dark:text-elixir-dark">
                                     session<br>
                                     |> visit("/login")<br>
                                     |> fill_in(Query.text_field("Username"), with: "user")<br>
                                     |> click(Query.button("Submit"))
-                                </code>
-                            </div>
-                            <a href="https://github.com/elixir-wallaby/wallaby" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
-                                Visit Website
-                            </a>
-                        </div>
-                    </div>
+                  </code>
                 </div>
-            </section>
+                <a href="https://github.com/elixir-wallaby/wallaby" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
+                  Visit Website
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
 
-            <!-- Deployment Section -->
-            <section id="deployment" class="mb-12 tool-section">
-                <h2 class="text-2xl font-bold mb-6 text-elixir dark:text-elixir-dark">Deployment Tools</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Distillery -->
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="Distillery" data-tool-tags="Releases Deployment">
-                        <div class="h-48 bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center">
-                            <img src="/placeholder.svg?height=150&width=250" alt="Distillery" class="max-h-32">
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2">Distillery</h3>
-                            <p class="text-gray-600 dark:text-gray-300 mb-4">A release packaging tool for Elixir and Erlang applications.</p>
-                            <div class="mb-4">
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Releases</span>
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Deployment</span>
-                            </div>
-                            <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
-                                <code class="text-sm text-elixir dark:text-elixir-dark">
+        <!-- Deployment Section -->
+        <section id="deployment" class="mb-12 tool-section">
+          <h2 class="text-2xl font-bold mb-6 text-elixir dark:text-elixir-dark">Deployment Tools</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Distillery -->
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="Distillery" data-tool-tags="Releases Deployment">
+              <div class="h-48 bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center">
+                <img src="/placeholder.svg?height=150&width=250" alt="Distillery" class="max-h-32">
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-2">Distillery</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">A release packaging tool for Elixir and Erlang applications.</p>
+                <div class="mb-4">
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Releases</span>
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Deployment</span>
+                </div>
+                <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
+                  <code class="text-sm text-elixir dark:text-elixir-dark">
                                     mix release.init<br>
                                     mix release
-                                </code>
-                            </div>
-                            <a href="https://github.com/bitwalker/distillery" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
-                                Visit Website
-                            </a>
-                        </div>
-                    </div>
+                  </code>
+                </div>
+                <a href="https://github.com/bitwalker/distillery" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
+                  Visit Website
+                </a>
+              </div>
+            </div>
 
-                    <!-- Elixir Releases -->
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="Elixir Releases" data-tool-tags="Built-in Releases">
-                        <div class="h-48 bg-gradient-to-r from-purple-500 to-violet-500 flex items-center justify-center">
-                            <img src="/placeholder.svg?height=150&width=250" alt="Elixir Releases" class="max-h-32">
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2">Elixir Releases</h3>
-                            <p class="text-gray-600 dark:text-gray-300 mb-4">Built-in release manager for Elixir applications.</p>
-                            <div class="mb-4">
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Built-in</span>
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Releases</span>
-                            </div>
-                            <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
-                                <code class="text-sm text-elixir dark:text-elixir-dark">
+            <!-- Elixir Releases -->
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="Elixir Releases" data-tool-tags="Built-in Releases">
+              <div class="h-48 bg-gradient-to-r from-purple-500 to-violet-500 flex items-center justify-center">
+                <img src="/placeholder.svg?height=150&width=250" alt="Elixir Releases" class="max-h-32">
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-2">Elixir Releases</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">Built-in release manager for Elixir applications.</p>
+                <div class="mb-4">
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Built-in</span>
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Releases</span>
+                </div>
+                <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
+                  <code class="text-sm text-elixir dark:text-elixir-dark">
                                     mix release<br>
                                     _build/prod/rel/my_app/bin/my_app start
-                                </code>
-                            </div>
-                            <a href="https://hexdocs.pm/mix/Mix.Tasks.Release.html" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
-                                Visit Website
-                            </a>
-                        </div>
-                    </div>
+                  </code>
+                </div>
+                <a href="https://hexdocs.pm/mix/Mix.Tasks.Release.html" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
+                  Visit Website
+                </a>
+              </div>
+            </div>
 
-                    <!-- Docker -->
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="Docker" data-tool-tags="Containers Deployment">
-                        <div class="h-48 bg-gradient-to-r from-blue-500 to-indigo-500 flex items-center justify-center">
-                            <img src="/placeholder.svg?height=150&width=250" alt="Docker" class="max-h-32">
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2">Docker</h3>
-                            <p class="text-gray-600 dark:text-gray-300 mb-4">Containerization platform for Elixir applications.</p>
-                            <div class="mb-4">
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Containers</span>
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Deployment</span>
-                            </div>
-                            <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
-                                <code class="text-sm text-elixir dark:text-elixir-dark">
+            <!-- Docker -->
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="Docker" data-tool-tags="Containers Deployment">
+              <div class="h-48 bg-gradient-to-r from-blue-500 to-indigo-500 flex items-center justify-center">
+                <img src="/placeholder.svg?height=150&width=250" alt="Docker" class="max-h-32">
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-2">Docker</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">Containerization platform for Elixir applications.</p>
+                <div class="mb-4">
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Containers</span>
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Deployment</span>
+                </div>
+                <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
+                  <code class="text-sm text-elixir dark:text-elixir-dark">
                                     FROM elixir:1.14-alpine<br>
                                     WORKDIR /app<br>
                                     COPY . .<br>
                                     RUN mix do deps.get, compile
-                                </code>
-                            </div>
-                            <a href="https://www.docker.com/" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
-                                Visit Website
-                            </a>
-                        </div>
-                    </div>
+                  </code>
                 </div>
-            </section>
+                <a href="https://www.docker.com/" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
+                  Visit Website
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
 
-            <!-- IDE & Editors Section -->
-            <section id="ide" class="mb-12 tool-section">
-                <h2 class="text-2xl font-bold mb-6 text-elixir dark:text-elixir-dark">IDE & Editor Tools</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- VS Code ElixirLS -->
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="VS Code ElixirLS" data-tool-tags="VS Code Language Server">
-                        <div class="h-48 bg-gradient-to-r from-blue-500 to-teal-500 flex items-center justify-center">
-                            <img src="/placeholder.svg?height=150&width=250" alt="VS Code ElixirLS" class="max-h-32">
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2">VS Code ElixirLS</h3>
-                            <p class="text-gray-600 dark:text-gray-300 mb-4">Elixir language server for Visual Studio Code.</p>
-                            <div class="mb-4">
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">VS Code</span>
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Language Server</span>
-                            </div>
-                            <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
-                                <code class="text-sm text-elixir dark:text-elixir-dark">
+        <!-- IDE & Editors Section -->
+        <section id="ide" class="mb-12 tool-section">
+          <h2 class="text-2xl font-bold mb-6 text-elixir dark:text-elixir-dark">IDE & Editor Tools</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- VS Code ElixirLS -->
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="VS Code ElixirLS" data-tool-tags="VS Code Language Server">
+              <div class="h-48 bg-gradient-to-r from-blue-500 to-teal-500 flex items-center justify-center">
+                <img src="/placeholder.svg?height=150&width=250" alt="VS Code ElixirLS" class="max-h-32">
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-2">VS Code ElixirLS</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">Elixir language server for Visual Studio Code.</p>
+                <div class="mb-4">
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">VS Code</span>
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Language Server</span>
+                </div>
+                <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
+                  <code class="text-sm text-elixir dark:text-elixir-dark">
                                     Features:<br>
                                     - Auto-completion<br>
                                     - Go to definition<br>
                                     - Code formatting
-                                </code>
-                            </div>
-                            <a href="https://marketplace.visualstudio.com/items?itemName=JakeBecker.elixir-ls" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
-                                Visit Website
-                            </a>
-                        </div>
-                    </div>
+                  </code>
+                </div>
+                <a href="https://marketplace.visualstudio.com/items?itemName=JakeBecker.elixir-ls" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
+                  Visit Website
+                </a>
+              </div>
+            </div>
 
-                    <!-- IntelliJ Elixir -->
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="IntelliJ Elixir" data-tool-tags="IntelliJ Plugin">
-                        <div class="h-48 bg-gradient-to-r from-red-500 to-orange-500 flex items-center justify-center">
-                            <img src="/placeholder.svg?height=150&width=250" alt="IntelliJ Elixir" class="max-h-32">
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2">IntelliJ Elixir</h3>
-                            <p class="text-gray-600 dark:text-gray-300 mb-4">Elixir plugin for IntelliJ IDEA and other JetBrains IDEs.</p>
-                            <div class="mb-4">
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">IntelliJ</span>
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Plugin</span>
-                            </div>
-                            <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
-                                <code class="text-sm text-elixir dark:text-elixir-dark">
+            <!-- IntelliJ Elixir -->
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="IntelliJ Elixir" data-tool-tags="IntelliJ Plugin">
+              <div class="h-48 bg-gradient-to-r from-red-500 to-orange-500 flex items-center justify-center">
+                <img src="/placeholder.svg?height=150&width=250" alt="IntelliJ Elixir" class="max-h-32">
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-2">IntelliJ Elixir</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">Elixir plugin for IntelliJ IDEA and other JetBrains IDEs.</p>
+                <div class="mb-4">
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">IntelliJ</span>
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Plugin</span>
+                </div>
+                <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
+                  <code class="text-sm text-elixir dark:text-elixir-dark">
                                     Features:<br>
                                     - Syntax highlighting<br>
                                     - Code navigation<br>
                                     - Run configurations
-                                </code>
-                            </div>
-                            <a href="https://github.com/KronicDeth/intellij-elixir" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
-                                Visit Website
-                            </a>
-                        </div>
-                    </div>
+                  </code>
+                </div>
+                <a href="https://github.com/KronicDeth/intellij-elixir" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
+                  Visit Website
+                </a>
+              </div>
+            </div>
 
-                    <!-- Emacs Alchemist -->
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="Emacs Alchemist" data-tool-tags="Emacs Editor">
-                        <div class="h-48 bg-gradient-to-r from-green-500 to-emerald-500 flex items-center justify-center">
-                            <img src="/placeholder.svg?height=150&width=250" alt="Emacs Alchemist" class="max-h-32">
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2">Emacs Alchemist</h3>
-                            <p class="text-gray-600 dark:text-gray-300 mb-4">Elixir tooling integration for Emacs.</p>
-                            <div class="mb-4">
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Emacs</span>
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Editor</span>
-                            </div>
-                            <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
-                                <code class="text-sm text-elixir dark:text-elixir-dark">
+            <!-- Emacs Alchemist -->
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="Emacs Alchemist" data-tool-tags="Emacs Editor">
+              <div class="h-48 bg-gradient-to-r from-green-500 to-emerald-500 flex items-center justify-center">
+                <img src="/placeholder.svg?height=150&width=250" alt="Emacs Alchemist" class="max-h-32">
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-2">Emacs Alchemist</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">Elixir tooling integration for Emacs.</p>
+                <div class="mb-4">
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Emacs</span>
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Editor</span>
+                </div>
+                <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
+                  <code class="text-sm text-elixir dark:text-elixir-dark">
                                     Features:<br>
                                     - Mix integration<br>
                                     - IEx integration<br>
                                     - Testing tools
-                                </code>
-                            </div>
-                            <a href="https://github.com/tonini/alchemist.el" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
-                                Visit Website
-                            </a>
-                        </div>
-                    </div>
+                  </code>
                 </div>
-            </section>
+                <a href="https://github.com/tonini/alchemist.el" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
+                  Visit Website
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
 
-            <!-- Monitoring Section -->
-            <section id="monitoring" class="mb-12 tool-section">
-                <h2 class="text-2xl font-bold mb-6 text-elixir dark:text-elixir-dark">Monitoring Tools</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Telemetry -->
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="Telemetry" data-tool-tags="Metrics Instrumentation">
-                        <div class="h-48 bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center">
-                            <img src="/placeholder.svg?height=150&width=250" alt="Telemetry" class="max-h-32">
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2">Telemetry</h3>
-                            <p class="text-gray-600 dark:text-gray-300 mb-4">Dynamic dispatching library for metrics and instrumentations.</p>
-                            <div class="mb-4">
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Metrics</span>
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Instrumentation</span>
-                            </div>
-                            <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
-                                <code class="text-sm text-elixir dark:text-elixir-dark">
+        <!-- Monitoring Section -->
+        <section id="monitoring" class="mb-12 tool-section">
+          <h2 class="text-2xl font-bold mb-6 text-elixir dark:text-elixir-dark">Monitoring Tools</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Telemetry -->
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="Telemetry" data-tool-tags="Metrics Instrumentation">
+              <div class="h-48 bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center">
+                <img src="/placeholder.svg?height=150&width=250" alt="Telemetry" class="max-h-32">
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-2">Telemetry</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">Dynamic dispatching library for metrics and instrumentations.</p>
+                <div class="mb-4">
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Metrics</span>
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Instrumentation</span>
+                </div>
+                <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
+                  <code class="text-sm text-elixir dark:text-elixir-dark">
                                     :telemetry.execute([:web, :request], %{duration: duration}, %{path: path})
-                                </code>
-                            </div>
-                            <a href="https://hexdocs.pm/telemetry/readme.html" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
-                                Visit Website
-                            </a>
-                        </div>
-                    </div>
+                  </code>
+                </div>
+                <a href="https://hexdocs.pm/telemetry/readme.html" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
+                  Visit Website
+                </a>
+              </div>
+            </div>
 
-                    <!-- AppSignal -->
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="AppSignal" data-tool-tags="Monitoring Error Tracking">
-                        <div class="h-48 bg-gradient-to-r from-orange-500 to-red-500 flex items-center justify-center">
-                            <img src="/placeholder.svg?height=150&width=250" alt="AppSignal" class="max-h-32">
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2">AppSignal</h3>
-                            <p class="text-gray-600 dark:text-gray-300 mb-4">Application monitoring for Elixir applications.</p>
-                            <div class="mb-4">
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Monitoring</span>
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Error Tracking</span>
-                            </div>
-                            <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
-                                <code class="text-sm text-elixir dark:text-elixir-dark">
+            <!-- AppSignal -->
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="AppSignal" data-tool-tags="Monitoring Error Tracking">
+              <div class="h-48 bg-gradient-to-r from-orange-500 to-red-500 flex items-center justify-center">
+                <img src="/placeholder.svg?height=150&width=250" alt="AppSignal" class="max-h-32">
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-2">AppSignal</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">Application monitoring for Elixir applications.</p>
+                <div class="mb-4">
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Monitoring</span>
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Error Tracking</span>
+                </div>
+                <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
+                  <code class="text-sm text-elixir dark:text-elixir-dark">
                                     Appsignal.set_gauge("memory", memory_usage)<br>
                                     Appsignal.increment_counter("login_count", 1)
-                                </code>
-                            </div>
-                            <a href="https://appsignal.com/elixir" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
-                                Visit Website
-                            </a>
-                        </div>
-                    </div>
+                  </code>
+                </div>
+                <a href="https://appsignal.com/elixir" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
+                  Visit Website
+                </a>
+              </div>
+            </div>
 
-                    <!-- Prometheus -->
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="Prometheus" data-tool-tags="Metrics Monitoring">
-                        <div class="h-48 bg-gradient-to-r from-red-500 to-pink-500 flex items-center justify-center">
-                            <img src="/placeholder.svg?height=150&width=250" alt="Prometheus" class="max-h-32">
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2">Prometheus</h3>
-                            <p class="text-gray-600 dark:text-gray-300 mb-4">Monitoring system and time series database for Elixir.</p>
-                            <div class="mb-4">
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Metrics</span>
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Monitoring</span>
-                            </div>
-                            <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
-                                <code class="text-sm text-elixir dark:text-elixir-dark">
+            <!-- Prometheus -->
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="Prometheus" data-tool-tags="Metrics Monitoring">
+              <div class="h-48 bg-gradient-to-r from-red-500 to-pink-500 flex items-center justify-center">
+                <img src="/placeholder.svg?height=150&width=250" alt="Prometheus" class="max-h-32">
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-2">Prometheus</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">Monitoring system and time series database for Elixir.</p>
+                <div class="mb-4">
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Metrics</span>
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Monitoring</span>
+                </div>
+                <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
+                  <code class="text-sm text-elixir dark:text-elixir-dark">
                                     counter = :prometheus_counter.new([<br>
                                     &nbsp;&nbsp;name: :http_requests_total,<br>
                                     &nbsp;&nbsp;help: "Total number of HTTP requests"<br>
                                     ])
-                                </code>
-                            </div>
-                            <a href="https://hexdocs.pm/prometheus_ex/Prometheus.html" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
-                                Visit Website
-                            </a>
-                        </div>
-                    </div>
+                  </code>
                 </div>
-            </section>
+                <a href="https://hexdocs.pm/prometheus_ex/Prometheus.html" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
+                  Visit Website
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
 
-            <!-- Package Management Section -->
-            <section id="package" class="mb-12 tool-section">
-                <h2 class="text-2xl font-bold mb-6 text-elixir dark:text-elixir-dark">Package Management</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Mix -->
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="Mix" data-tool-tags="Build Tool Built-in">
-                        <div class="h-48 bg-gradient-to-r from-purple-500 to-indigo-500 flex items-center justify-center">
-                            <img src="/placeholder.svg?height=150&width=250" alt="Mix" class="max-h-32">
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2">Mix</h3>
-                            <p class="text-gray-600 dark:text-gray-300 mb-4">Build tool that provides tasks for creating, compiling, and testing Elixir projects.</p>
-                            <div class="mb-4">
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Build Tool</span>
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Built-in</span>
-                            </div>
-                            <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
-                                <code class="text-sm text-elixir dark:text-elixir-dark">
+        <!-- Package Management Section -->
+        <section id="package" class="mb-12 tool-section">
+          <h2 class="text-2xl font-bold mb-6 text-elixir dark:text-elixir-dark">Package Management</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Mix -->
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="Mix" data-tool-tags="Build Tool Built-in">
+              <div class="h-48 bg-gradient-to-r from-purple-500 to-indigo-500 flex items-center justify-center">
+                <img src="/placeholder.svg?height=150&width=250" alt="Mix" class="max-h-32">
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-2">Mix</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">Build tool that provides tasks for creating, compiling, and testing Elixir projects.</p>
+                <div class="mb-4">
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Build Tool</span>
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Built-in</span>
+                </div>
+                <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
+                  <code class="text-sm text-elixir dark:text-elixir-dark">
                                     mix new my_app<br>
                                     mix deps.get<br>
                                     mix compile<br>
                                     mix test
-                                </code>
-                            </div>
-                            <a href="https://hexdocs.pm/mix/Mix.html" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
-                                Visit Website
-                            </a>
-                        </div>
-                    </div>
+                  </code>
+                </div>
+                <a href="https://hexdocs.pm/mix/Mix.html" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
+                  Visit Website
+                </a>
+              </div>
+            </div>
 
-                    <!-- Hex -->
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="Hex" data-tool-tags="Package Manager Registry">
-                        <div class="h-48 bg-gradient-to-r from-pink-500 to-rose-500 flex items-center justify-center">
-                            <img src="/placeholder.svg?height=150&width=250" alt="Hex" class="max-h-32">
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2">Hex</h3>
-                            <p class="text-gray-600 dark:text-gray-300 mb-4">Package manager for the Erlang ecosystem.</p>
-                            <div class="mb-4">
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Package Manager</span>
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Registry</span>
-                            </div>
-                            <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
-                                <code class="text-sm text-elixir dark:text-elixir-dark">
+            <!-- Hex -->
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="Hex" data-tool-tags="Package Manager Registry">
+              <div class="h-48 bg-gradient-to-r from-pink-500 to-rose-500 flex items-center justify-center">
+                <img src="/placeholder.svg?height=150&width=250" alt="Hex" class="max-h-32">
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-2">Hex</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">Package manager for the Erlang ecosystem.</p>
+                <div class="mb-4">
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Package Manager</span>
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Registry</span>
+                </div>
+                <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
+                  <code class="text-sm text-elixir dark:text-elixir-dark">
                                     mix hex.info phoenix<br>
                                     mix hex.publish
-                                </code>
-                            </div>
-                            <a href="https://hex.pm/" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
-                                Visit Website
-                            </a>
-                        </div>
-                    </div>
+                  </code>
+                </div>
+                <a href="https://hex.pm/" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
+                  Visit Website
+                </a>
+              </div>
+            </div>
 
-                    <!-- Rebar3 -->
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="Rebar3" data-tool-tags="Erlang Build Tool">
-                        <div class="h-48 bg-gradient-to-r from-blue-500 to-sky-500 flex items-center justify-center">
-                            <img src="/placeholder.svg?height=150&width=250" alt="Rebar3" class="max-h-32">
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2">Rebar3</h3>
-                            <p class="text-gray-600 dark:text-gray-300 mb-4">Erlang build tool that can be used with Elixir projects.</p>
-                            <div class="mb-4">
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Erlang</span>
-                                <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Build Tool</span>
-                            </div>
-                            <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
-                                <code class="text-sm text-elixir dark:text-elixir-dark">
+            <!-- Rebar3 -->
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105 tool-card" data-tool-name="Rebar3" data-tool-tags="Erlang Build Tool">
+              <div class="h-48 bg-gradient-to-r from-blue-500 to-sky-500 flex items-center justify-center">
+                <img src="/placeholder.svg?height=150&width=250" alt="Rebar3" class="max-h-32">
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-2">Rebar3</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">Erlang build tool that can be used with Elixir projects.</p>
+                <div class="mb-4">
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Erlang</span>
+                  <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">Build Tool</span>
+                </div>
+                <div class="bg-gray-100 dark:bg-gray-900 rounded p-3 mb-4 overflow-x-auto">
+                  <code class="text-sm text-elixir dark:text-elixir-dark">
                                     rebar3 compile<br>
                                     rebar3 release
-                                </code>
-                            </div>
-                            <a href="https://rebar3.org/" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
-                                Visit Website
-                            </a>
-                        </div>
-                    </div>
+                  </code>
                 </div>
-            </section>
-        </main>
+                <a href="https://rebar3.org/" target="_blank" class="inline-block bg-elixir hover:bg-elixir-dark text-white font-bold py-2 px-4 rounded transition-colors dark:bg-elixir-dark dark:hover:bg-elixir">
+                  Visit Website
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
     </div>
 
     <!-- Footer -->
     <footer class="bg-gray-100 dark:bg-gray-800 py-8 md:ml-0">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="mb-4 md:mb-0">
-                    <h2 class="text-xl font-bold text-elixir dark:text-elixir-dark">Elixir Tools Hub</h2>
-                    <p class="text-gray-600 dark:text-gray-300">A comprehensive collection of tools for Elixir development.</p>
-                </div>
-                <div class="flex space-x-4">
-                    <a href="https://elixir-lang.org/" target="_blank" class="text-elixir dark:text-elixir-dark hover:text-elixir-dark dark:hover:text-elixir">Elixir</a>
-                    <a href="https://hex.pm/" target="_blank" class="text-elixir dark:text-elixir-dark hover:text-elixir-dark dark:hover:text-elixir">Hex</a>
-                    <a href="https://elixirforum.com/" target="_blank" class="text-elixir dark:text-elixir-dark hover:text-elixir-dark dark:hover:text-elixir">Elixir Forum</a>
-                </div>
-            </div>
-            <div class="mt-8 text-center text-gray-600 dark:text-gray-400">
-                <p>&copy; 2025 Elixir Tools Hub. All rights reserved.</p>
-            </div>
+      <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <div class="mb-4 md:mb-0">
+            <h2 class="text-xl font-bold text-elixir dark:text-elixir-dark">Elixir Tools Hub</h2>
+            <p class="text-gray-600 dark:text-gray-300">A comprehensive collection of tools for Elixir development.</p>
+          </div>
+          <div class="flex space-x-4">
+            <a href="https://elixir-lang.org/" target="_blank" class="text-elixir dark:text-elixir-dark hover:text-elixir-dark dark:hover:text-elixir">Elixir</a>
+            <a href="https://hex.pm/" target="_blank" class="text-elixir dark:text-elixir-dark hover:text-elixir-dark dark:hover:text-elixir">Hex</a>
+            <a href="https://elixirforum.com/" target="_blank" class="text-elixir dark:text-elixir-dark hover:text-elixir-dark dark:hover:text-elixir">Elixir Forum</a>
+          </div>
         </div>
+        <div class="mt-8 text-center text-gray-600 dark:text-gray-400">
+          <p>&copy; 2025 Elixir Tools Hub. All rights reserved.</p>
+        </div>
+      </div>
     </footer>
 
     <script>
+      // Category filtering
+      document.addEventListener('DOMContentLoaded', function() {
+        const categoryButtons = document.querySelectorAll('.sidebar-btn');
+        const sections = document.querySelectorAll('.tool-section');
+        const searchInput = document.getElementById('search-input');
+        const clearSearchBtn = document.getElementById('clear-search');
+        const toolCards = document.querySelectorAll('.tool-card');
+
         // Category filtering
-        document.addEventListener('DOMContentLoaded', function() {
-            const categoryButtons = document.querySelectorAll('.sidebar-btn');
-            const sections = document.querySelectorAll('.tool-section');
-            const searchInput = document.getElementById('search-input');
-            const clearSearchBtn = document.getElementById('clear-search');
-            const toolCards = document.querySelectorAll('.tool-card');
-            
-            // Category filtering
-            categoryButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    // Remove active class from all buttons
-                    categoryButtons.forEach(btn => btn.classList.remove('active'));
-                    
-                    // Add active class to clicked button
-                    this.classList.add('active');
-                    
-                    const category = this.getAttribute('data-category');
-                    
-                    // Show/hide sections based on category
-                    if (category === 'all') {
-                        sections.forEach(section => section.style.display = 'block');
-                    } else {
-                        sections.forEach(section => {
-                            if (section.id === category) {
-                                section.style.display = 'block';
-                            } else {
-                                section.style.display = 'none';
-                            }
-                        });
-                    }
-                    
-                    // Apply search filter if there's a search query
-                    if (searchInput.value.trim() !== '') {
-                        filterTools(searchInput.value.trim());
-                    }
-                    
-                    // Close sidebar on mobile after selection
-                    if (window.innerWidth < 768) {
-                        document.getElementById('sidebar').classList.add('-translate-x-full');
-                    }
-                });
-            });
-            
-            // Search functionality
-            function filterTools(query) {
-                query = query.toLowerCase();
-                
-                toolCards.forEach(card => {
-                    const toolName = card.getAttribute('data-tool-name').toLowerCase();
-                    const toolTags = card.getAttribute('data-tool-tags').toLowerCase();
-                    const toolDescription = card.querySelector('p').textContent.toLowerCase();
-                    
-                    if (toolName.includes(query) || toolTags.includes(query) || toolDescription.includes(query)) {
-                        card.style.display = 'block';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-                
-                // Show/hide sections based on whether they have visible cards
-                sections.forEach(section => {
-                    const visibleCards = section.querySelectorAll('.tool-card[style="display: block"]');
-                    if (visibleCards.length === 0 && section.style.display !== 'none') {
-                        section.style.display = 'none';
-                    } else if (visibleCards.length > 0 && section.style.display === 'none') {
-                        // Only show the section if it's not hidden by category filter
-                        const activeCategory = document.querySelector('.sidebar-btn.active').getAttribute('data-category');
-                        if (activeCategory === 'all' || section.id === activeCategory) {
-                            section.style.display = 'block';
-                        }
-                    }
-                });
-            }
-            
-            searchInput.addEventListener('input', function() {
-                const query = this.value.trim();
-                
-                if (query !== '') {
-                    clearSearchBtn.classList.remove('hidden');
-                    filterTools(query);
+        categoryButtons.forEach(button => {
+          button.addEventListener('click', function() {
+            // Remove active class from all buttons
+            categoryButtons.forEach(btn => btn.classList.remove('active'));
+
+            // Add active class to clicked button
+            this.classList.add('active');
+
+            const category = this.getAttribute('data-category');
+
+            // Show/hide sections based on category
+            if (category === 'all') {
+              sections.forEach(section => section.style.display = 'block');
+            } else {
+              sections.forEach(section => {
+                if (section.id === category) {
+                  section.style.display = 'block';
                 } else {
-                    clearSearchBtn.classList.add('hidden');
-                    // Reset to show all tools in the active category
-                    document.querySelector('.sidebar-btn.active').click();
+                  section.style.display = 'none';
                 }
-            });
-            
-            clearSearchBtn.addEventListener('click', function() {
-                searchInput.value = '';
-                clearSearchBtn.classList.add('hidden');
-                // Reset to show all tools in the active category
-                document.querySelector('.sidebar-btn.active').click();
-            });
-            
-            // Set "All Tools" as active by default
-            document.querySelector('.sidebar-btn[data-category="all"]').click();
+              });
+            }
+
+            // Apply search filter if there's a search query
+            if (searchInput.value.trim() !== '') {
+              filterTools(searchInput.value.trim());
+            }
+
+            // Close sidebar on mobile after selection
+            if (window.innerWidth < 768) {
+              document.getElementById('sidebar').classList.add('-translate-x-full');
+            }
+          });
         });
+
+        // Search functionality
+        function filterTools(query) {
+          query = query.toLowerCase();
+
+          toolCards.forEach(card => {
+            const toolName = card.getAttribute('data-tool-name').toLowerCase();
+            const toolTags = card.getAttribute('data-tool-tags').toLowerCase();
+            const toolDescription = card.querySelector('p').textContent.toLowerCase();
+
+            if (toolName.includes(query) || toolTags.includes(query) || toolDescription.includes(query)) {
+              card.style.display = 'block';
+            } else {
+              card.style.display = 'none';
+            }
+          });
+
+          // Show/hide sections based on whether they have visible cards
+          sections.forEach(section => {
+            const visibleCards = section.querySelectorAll('.tool-card[style="display: block"]');
+            if (visibleCards.length === 0 && section.style.display !== 'none') {
+              section.style.display = 'none';
+            } else if (visibleCards.length > 0 && section.style.display === 'none') {
+              // Only show the section if it's not hidden by category filter
+              const activeCategory = document.querySelector('.sidebar-btn.active').getAttribute('data-category');
+              if (activeCategory === 'all' || section.id === activeCategory) {
+                section.style.display = 'block';
+              }
+            }
+          });
+        }
+
+        searchInput.addEventListener('input', function() {
+          const query = this.value.trim();
+
+          if (query !== '') {
+            clearSearchBtn.classList.remove('hidden');
+            filterTools(query);
+          } else {
+            clearSearchBtn.classList.add('hidden');
+            // Reset to show all tools in the active category
+            document.querySelector('.sidebar-btn.active').click();
+          }
+        });
+
+        clearSearchBtn.addEventListener('click', function() {
+          searchInput.value = '';
+          clearSearchBtn.classList.add('hidden');
+          // Reset to show all tools in the active category
+          document.querySelector('.sidebar-btn.active').click();
+        });
+
+        // Set "All Tools" as active by default
+        document.querySelector('.sidebar-btn[data-category="all"]').click();
+      });
     </script>
-</body>
+  </body>
 </html>
